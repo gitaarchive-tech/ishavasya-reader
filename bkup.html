@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Kokila', serif; padding: 40px; background: #f4f1ea; }
+        .segment-card { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .text-content { font-size: 1.2rem; margin-bottom: 10px; }
+        audio { width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>Ishavasya Upanishad Bhāṣya - Study Archive</h1>
+    <div id="study-container"></div>
+
+    <script>
+        // In a real study app, you'd fetch a list of files. 
+        // For local testing, just list your batch numbers here.
+        const batchCount = 14; 
+        const container = document.getElementById('study-container');
+
+        for (let i = 1; i <= batchCount; i++) {
+            const id = i.toString().padStart(4, '0');
+            const card = document.createElement('div');
+            card.className = 'segment-card';
+            card.innerHTML = `
+                <h3>Segment ${id}</h3>
+                <div class="text-content" id="text-${id}">Loading text...</div>
+                <audio controls src="batch_${id}.wav"></audio>
+            `;
+            container.appendChild(card);
+            
+            // Fetch the text file
+            fetch(`batch_${id}.txt`)
+                .then(response => response.text())
+                .then(text => document.getElementById(`text-${id}`).innerText = text);
+        }
+    </script>
+</body>
+</html>
